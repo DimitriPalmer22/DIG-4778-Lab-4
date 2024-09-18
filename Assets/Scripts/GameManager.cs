@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -17,25 +18,27 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(playerPrefab, transform.position, Quaternion.identity);
         InvokeRepeating("SpawnMeteor", 1f, 2f);
+        
+        // Restart
+        InputManager.Instance.PlayerControls.Gameplay.Restart.performed += Restart;
+    }
+
+    private void Restart(InputAction.CallbackContext obj)
+    {
+        if (!gameOver)
+            return;
+        
+        SceneManager.LoadScene("Week5Lab");
     }
 
     // Update is called once per frame
     void Update()
     {
         if (gameOver)
-        {
             CancelInvoke();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && gameOver)
-        {
-            SceneManager.LoadScene("Week5Lab");
-        }
 
         if (meteorCount == 5)
-        {
             BigMeteor();
-        }
     }
 
     void SpawnMeteor()
