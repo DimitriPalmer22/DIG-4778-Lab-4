@@ -172,3 +172,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 5506627125660967038, guid: 1a8162fa00c811a43904a4f611676905, type: 3}
+  gun: {fileID: 8300000, guid: 267fef3fb4468de428b8c5ce523d5294, type: 3}

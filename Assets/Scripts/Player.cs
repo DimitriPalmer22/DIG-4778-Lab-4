@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public GameObject laserPrefab;
+    private AudioSource audioSource;
+    public AudioClip gun;
 
     private float speed = 6f;
     private float horizontalScreenLimit = 10f;
@@ -17,6 +19,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //play sound
+        audioSource = GetComponent<AudioSource>();
+
         // Subscribe to the Input System
         InputManager.Instance.PlayerControls.Gameplay.Move.performed += OnMovePerformed;
         InputManager.Instance.PlayerControls.Gameplay.Move.canceled += OnMoveCanceled;
@@ -59,6 +64,7 @@ public class Player : MonoBehaviour
             0
         );
     }
+    
 
     void Shooting()
     {
@@ -67,6 +73,7 @@ public class Player : MonoBehaviour
             return;
 
         Instantiate(laserPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        audioSource.Play();
         canShoot = false;
         StartCoroutine("Cooldown");
     }
