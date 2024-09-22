@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     private Vector2 moveVector;
 
+    private bool _isShooting;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,15 +27,23 @@ public class Player : MonoBehaviour
         // Subscribe to the Input System
         InputManager.Instance.PlayerControls.Gameplay.Move.performed += OnMovePerformed;
         InputManager.Instance.PlayerControls.Gameplay.Move.canceled += OnMoveCanceled;
-        
+
         InputManager.Instance.PlayerControls.Gameplay.Shoot.performed += OnShootPerformed;
+        InputManager.Instance.PlayerControls.Gameplay.Shoot.canceled += OnShootCanceled;
     }
+
 
     private void OnShootPerformed(InputAction.CallbackContext obj)
     {
-        Shooting();
+        // Set the shooting flag to true
+        _isShooting = true;
     }
 
+    private void OnShootCanceled(InputAction.CallbackContext obj)
+    {
+        // Set the shooting flag to false
+        _isShooting = false;
+    }
 
     private void OnMovePerformed(InputAction.CallbackContext obj)
     {
@@ -50,12 +60,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        
+        if (_isShooting)
+            Shooting();
     }
 
     void Movement()
     {
         // Move the player
-        transform.Translate(moveVector * Time.deltaTime * speed);
+        transform.Translate(moveVector * (Time.deltaTime * speed));
 
         // Clamp the player within the screen
         transform.position = new Vector3(
@@ -64,7 +77,7 @@ public class Player : MonoBehaviour
             0
         );
     }
-    
+
 
     void Shooting()
     {
