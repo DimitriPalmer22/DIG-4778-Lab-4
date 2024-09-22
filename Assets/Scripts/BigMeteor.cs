@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class BigMeteor : MonoBehaviour
 {
+    [SerializeField] GameObject bigExplosionParticles;
+    [SerializeField] CinemachineImpulseSource impulseSource;
     private int hitCount = 0;
 
     // Start is called before the first frame update
@@ -24,6 +27,8 @@ public class BigMeteor : MonoBehaviour
 
         if (hitCount >= 5)
         {
+            Instantiate(bigExplosionParticles, transform.position, transform.rotation).GetComponent<ParticleSystem>().Play();
+            impulseSource.GenerateImpulse();
             Destroy(this.gameObject);
         }
     }

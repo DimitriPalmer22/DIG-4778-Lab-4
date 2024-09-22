@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
+    [SerializeField] GameObject smallExplosionParticles;
     
     // Start is called before the first frame update
     void Start()
@@ -27,13 +28,16 @@ public class Meteor : MonoBehaviour
         if (whatIHit.tag == "Player")
         {
             GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+            Instantiate(smallExplosionParticles, transform.position, transform.rotation).GetComponent<ParticleSystem>().Play();
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
         } else if (whatIHit.tag == "Laser")
         {
             GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
+            Instantiate(smallExplosionParticles, transform.position, transform.rotation).GetComponent<ParticleSystem>().Play();
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
+            
         }
     }
 }
