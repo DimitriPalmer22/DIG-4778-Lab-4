@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bigExplosionParticles: {fileID: 5125338870498967602, guid: 7f61454ebc5306c469c2184fa133d92a, type: 3}
   impulseSource: {fileID: -5885001993116338838}
+  score: 50
 --- !u!114 &-5885001993116338838
 MonoBehaviour:
   m_ObjectHideFlags: 0

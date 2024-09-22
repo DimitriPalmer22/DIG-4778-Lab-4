@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class BigMeteor : MonoBehaviour
+public class BigMeteor : MonoBehaviour, IScored
 {
     [SerializeField] GameObject bigExplosionParticles;
     [SerializeField] CinemachineImpulseSource impulseSource;
     private int hitCount = 0;
 
+    [SerializeField] private int score;
+
+    public int Score => score;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -45,5 +50,11 @@ public class BigMeteor : MonoBehaviour
             hitCount++;
             Destroy(whatIHit.gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        // Add the score to the GameManager
+        GameManager.Instance.AddScore(Score);
     }
 }

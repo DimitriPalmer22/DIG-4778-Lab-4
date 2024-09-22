@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Meteor : MonoBehaviour
+public class Meteor : MonoBehaviour, IScored
 {
     [SerializeField] GameObject smallExplosionParticles;
+    
+    [SerializeField] private int score;
+
+    public int Score => score;
     
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,12 @@ public class Meteor : MonoBehaviour
             Instantiate(smallExplosionParticles, transform.position, transform.rotation).GetComponent<ParticleSystem>().Play();
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
-            
         }
+    }
+    
+    private void OnDestroy()
+    {
+        // Add the score to the GameManager
+        GameManager.Instance.AddScore(Score);
     }
 }
