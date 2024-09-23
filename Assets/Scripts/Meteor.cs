@@ -5,15 +5,16 @@ using UnityEngine;
 public class Meteor : MonoBehaviour, IScored
 {
     [SerializeField] GameObject smallExplosionParticles;
-    
+    [SerializeField] private AudioClip explosionSound;
     [SerializeField] private int score;
+    private AudioSource audioSource;
 
     public int Score => score;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -40,7 +41,15 @@ public class Meteor : MonoBehaviour, IScored
             GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
             Instantiate(smallExplosionParticles, transform.position, transform.rotation).GetComponent<ParticleSystem>().Play();
             Destroy(whatIHit.gameObject);
+            PlayExplosionSound();
             Destroy(this.gameObject);
+        }
+    }
+    private void PlayExplosionSound()
+    {
+        if (explosionSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(explosionSound);
         }
     }
     
